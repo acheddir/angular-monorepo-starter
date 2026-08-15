@@ -21,7 +21,7 @@ describe("FeatureWelcome", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FeatureWelcome],
-      providers: [provideConfig()]
+      providers: [provideConfig({ environment: "development" })]
     })
       .overrideComponent(FeatureWelcome, {
         remove: { imports: [Hero] },

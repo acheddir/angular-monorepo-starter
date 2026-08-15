@@ -10,9 +10,4 @@ import { AppConfig, ConfigService } from "@app/shared/util-config";
 })
 export class App {
   private readonly configSvc = inject<ConfigService<AppConfig>>(ConfigService);
-
-  constructor() {
-    const apiUrl = this.configSvc.get("apiUrl");
-    console.log(apiUrl);
-  }
 }

@@ -4,9 +4,9 @@ import angular from "@analogjs/vite-plugin-angular";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  envDir: __dirname,
   envPrefix: ["VITE_", "APP_"],
   root: `${__dirname}/src`,
+  publicDir: `${__dirname}/public`,
   plugins: [
     varlockVitePlugin(),
     angular({ tsconfig: `${__dirname}/tsconfig.app.json` }),

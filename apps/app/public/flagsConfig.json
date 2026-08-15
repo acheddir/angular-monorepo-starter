@@ -1,0 +1,10 @@
+{
+  "learnMore": {
+    "defaultVariant": "on",
+    "disabled": false,
+    "variants": {
+      "on": true,
+      "off": false
+    }
+  }
+}

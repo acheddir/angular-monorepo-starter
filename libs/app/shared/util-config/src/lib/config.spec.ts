@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-import { CONFIG_OPTIONS, ConfigService } from "./config";
-import { injectConfig, provideConfig } from "./providers";
+import { CONFIG_OPTIONS, ConfigService, injectConfig } from "./config.service";
+import { provideConfig } from "./providers";
 
 interface AppConfig {
   [key: string]: unknown;
@@ -15,12 +15,16 @@ describe("ConfigService", () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
-          provideConfig<AppConfig>({
-            apiUrl: "https://api.example.com",
-            featureFlag: true,
-            maxRetries: 3,
-            nested: { timeout: 5000 }
-          })
+          ConfigService,
+          {
+            provide: CONFIG_OPTIONS,
+            useValue: {
+              apiUrl: "https://api.example.com",
+              featureFlag: true,
+              maxRetries: 3,
+              nested: { timeout: 5000 }
+            }
+          }
         ]
       });
     });
@@ -84,13 +88,14 @@ describe("ConfigService", () => {
     });
 
     it("get() should return undefined for an unknown key", () => {
-      const service = TestBed.inject(ConfigService);
-      expect(service.get("nonExistent" as never)).toBeUndefined();
+      const service = TestBed.inject(ConfigService) as ConfigService<any>;
+      const val = service.get("nonExistent");
+      expect(val).toBeUndefined();
     });
 
     it("select() should return a signal with undefined for an unknown key", () => {
-      const service = TestBed.inject(ConfigService);
-      const sig = service.select("nonExistent" as never);
+      const service = TestBed.inject(ConfigService) as ConfigService<any>;
+      const sig = service.select("nonExistent");
       expect(sig()).toBeUndefined();
     });
   });
@@ -98,25 +103,23 @@ describe("ConfigService", () => {
   describe("provideConfig()", () => {
     it("should register CONFIG_OPTIONS with the provided values", () => {
       TestBed.configureTestingModule({
-        providers: [provideConfig({ foo: "bar" })]
+        providers: [
+          provideConfig({ environment: "development", apiUrl: "https://api.example.com" })
+        ]
       });
       const options = TestBed.inject(CONFIG_OPTIONS);
-      expect(options).toEqual({ foo: "bar" });
+      expect(options).toEqual({ environment: "development", apiUrl: "https://api.example.com" });
     });
 
     it("should register ConfigService", () => {
       TestBed.configureTestingModule({
-        providers: [provideConfig({})]
+        providers: [provideConfig({ environment: "development" })]
       });
       expect(TestBed.inject(ConfigService)).toBeInstanceOf(ConfigService);
     });
 
-    it("should default to an empty object when called with no arguments", () => {
-      TestBed.configureTestingModule({
-        providers: [provideConfig()]
-      });
-      const options = TestBed.inject(CONFIG_OPTIONS);
-      expect(options).toEqual({});
+    it("should throw an error when called with invalid arguments", () => {
+      expect(() => provideConfig({} as any)).toThrow();
     });
   });
 
@@ -124,12 +127,16 @@ describe("ConfigService", () => {
     it("should return the ConfigService instance", () => {
       TestBed.configureTestingModule({
         providers: [
-          provideConfig<AppConfig>({
-            apiUrl: "/api",
-            featureFlag: false,
-            maxRetries: 1,
-            nested: { timeout: 1000 }
-          })
+          ConfigService,
+          {
+            provide: CONFIG_OPTIONS,
+            useValue: {
+              apiUrl: "https://api.example.com",
+              featureFlag: false,
+              maxRetries: 1,
+              nested: { timeout: 1000 }
+            }
+          }
         ]
       });
       const config = TestBed.runInInjectionContext(() => injectConfig<AppConfig>());
@@ -139,31 +146,39 @@ describe("ConfigService", () => {
     it("should expose config values via get()", () => {
       TestBed.configureTestingModule({
         providers: [
-          provideConfig<AppConfig>({
-            apiUrl: "/api",
-            featureFlag: false,
-            maxRetries: 1,
-            nested: { timeout: 1000 }
-          })
+          ConfigService,
+          {
+            provide: CONFIG_OPTIONS,
+            useValue: {
+              apiUrl: "https://api.example.com",
+              featureFlag: false,
+              maxRetries: 1,
+              nested: { timeout: 1000 }
+            }
+          }
         ]
       });
       const config = TestBed.runInInjectionContext(() => injectConfig<AppConfig>());
-      expect(config.get("apiUrl")).toBe("/api");
+      expect(config.get("apiUrl")).toBe("https://api.example.com");
     });
 
     it("should expose config values as direct properties via the proxy", () => {
       TestBed.configureTestingModule({
         providers: [
-          provideConfig<AppConfig>({
-            apiUrl: "/api",
-            featureFlag: false,
-            maxRetries: 1,
-            nested: { timeout: 1000 }
-          })
+          ConfigService,
+          {
+            provide: CONFIG_OPTIONS,
+            useValue: {
+              apiUrl: "https://api.example.com",
+              featureFlag: false,
+              maxRetries: 1,
+              nested: { timeout: 1000 }
+            }
+          }
         ]
       });
       const config = TestBed.runInInjectionContext(() => injectConfig<AppConfig>());
-      expect(config.apiUrl).toBe("/api");
+      expect(config.apiUrl).toBe("https://api.example.com");
       expect(config.featureFlag).toBe(false);
     });
   });
