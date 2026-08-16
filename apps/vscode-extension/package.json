@@ -1,0 +1,98 @@
+{
+  "name": "angular-monorepo-assistant",
+  "displayName": "Angular Monorepo Assistant",
+  "description": "Visual assistant for the Angular Monorepo Starter - manage schematics, Sheriff boundaries, and OpenFeature flags.",
+  "version": "0.0.1",
+  "publisher": "acheddir",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "angular-monorepo-sidebar-container",
+          "title": "Monorepo Assistant",
+          "icon": "$(package)"
+        }
+      ]
+    },
+    "views": {
+      "angular-monorepo-sidebar-container": [
+        {
+          "type": "webview",
+          "id": "angular-monorepo-sidebar",
+          "name": "Quick Dashboard"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "angular-monorepo-assistant.openDashboard",
+        "title": "Open Monorepo Dashboard",
+        "category": "Angular Monorepo"
+      },
+      {
+        "command": "angular-monorepo-assistant.runStart",
+        "title": "Run Start Server",
+        "category": "Angular Monorepo"
+      },
+      {
+        "command": "angular-monorepo-assistant.runTest",
+        "title": "Run Tests",
+        "category": "Angular Monorepo"
+      },
+      {
+        "command": "angular-monorepo-assistant.runLint",
+        "title": "Run Linting",
+        "category": "Angular Monorepo"
+      },
+      {
+        "command": "angular-monorepo-assistant.runFormat",
+        "title": "Run Prettier Formatting",
+        "category": "Angular Monorepo"
+      },
+      {
+        "command": "angular-monorepo-assistant.generateDomain",
+        "title": "Generate Domain Library...",
+        "category": "Angular Monorepo"
+      },
+      {
+        "command": "angular-monorepo-assistant.generateFeature",
+        "title": "Generate Feature Component...",
+        "category": "Angular Monorepo"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "angular-monorepo-assistant.generateFeature",
+          "when": "explorerResourceIsFolder",
+          "group": "angular-monorepo-context@1"
+        },
+        {
+          "command": "angular-monorepo-assistant.generateDomain",
+          "when": "explorerResourceIsFolder",
+          "group": "angular-monorepo-context@2"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run build",
+    "build": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.90.0",
+    "esbuild": "^0.21.5",
+    "typescript": "^5.4.5"
+  }
+}

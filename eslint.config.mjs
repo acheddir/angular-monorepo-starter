@@ -9,13 +9,15 @@ const __dirname = process.cwd();
 export default [
   {
     ignores: [
-      "dist/**",
+      "**/dist/**",
       "node_modules/**",
       "coverage/**",
       ".angular/**",
       "eslint.config.mjs",
       "tools/schematics/**",
-      "scripts/**"
+      "scripts/**",
+      "apps/vscode-extension/**",
+      "apps/app/env.d.ts"
     ]
   },
   eslint.configs.recommended,

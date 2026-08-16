@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Extension (Monorepo Assistant)",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": [
+        "${workspaceFolder}",
+        "--extensionDevelopmentPath=${workspaceFolder}/apps/vscode-extension",
+        "--new-window"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/apps/vscode-extension/dist/**/*.js"
+      ],
+      "preLaunchTask": "build-extension"
+    }
+  ]
+}

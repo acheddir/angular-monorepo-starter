@@ -1,0 +1,24 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "build-extension",
+      "command": "node esbuild.js",
+      "options": {
+        "cwd": "${workspaceFolder}/apps/vscode-extension"
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "watch-extension",
+      "command": "node esbuild.js --watch",
+      "options": {
+        "cwd": "${workspaceFolder}/apps/vscode-extension"
+      },
+      "problemMatcher": [],
+      "isBackground": true
+    }
+  ]
+}
