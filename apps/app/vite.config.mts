@@ -8,7 +8,7 @@ export default defineConfig({
   root: `${__dirname}/src`,
   publicDir: `${__dirname}/public`,
   plugins: [
-    varlockVitePlugin(),
+    varlockVitePlugin({ rootDir: __dirname }),
     angular({ tsconfig: `${__dirname}/tsconfig.app.json` }),
     tsconfigPaths()
   ],

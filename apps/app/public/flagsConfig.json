@@ -1,5 +1,13 @@
 {
   "learnMore": {
+    "defaultVariant": "off",
+    "disabled": false,
+    "variants": {
+      "on": true,
+      "off": false
+    }
+  },
+  "getStarted": {
     "defaultVariant": "on",
     "disabled": false,
     "variants": {

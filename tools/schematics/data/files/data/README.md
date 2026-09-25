@@ -1,6 +1,6 @@
 # <%= classify(domain) %> Data
 
-This library contains data access services for the <%= domain %> domain.
+This library contains data access services and signal stores for the <%= domain %> domain.
 
 ## Usage
 

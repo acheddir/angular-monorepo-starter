@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { AppConfig, ConfigService } from "@app/shared/util-config";
 
 @Component({
   selector: "app-root",
@@ -8,6 +7,4 @@ import { AppConfig, ConfigService } from "@app/shared/util-config";
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet]
 })
-export class App {
-  private readonly configSvc = inject<ConfigService<AppConfig>>(ConfigService);
-}
+export class App {}
